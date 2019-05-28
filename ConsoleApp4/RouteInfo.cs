@@ -1,4 +1,18 @@
-﻿namespace NavigateSimulator
+﻿/* **********************************************************************************************************************************
+ *  Author      : Navaneeth Puthiyandi                                                                                              *
+ *  Prgram Name : NavigateSimulator                                                                                                 *
+ *  Class Name  : RouteInfo                                                                                                         *
+ *  Version No  : 1.00.001                                                                                                          *
+ *                                                                                                                                  *
+ *  Description :   This class is used for getter and setter of various entities. These variables are later refered in other class  *
+ *                  files                                                                                                           *
+ *                                                                                                                                  *
+ *                                                                                                                                  *
+ *                                                                                                                                  *
+ *  Updates     :                                                                                                                   *
+ *                                                                                                                                  *
+ * **********************************************************************************************************************************/
+namespace NavigateSimulator
 {
     public class RouteInfo
     {

@@ -1,13 +1,32 @@
-﻿using System;
+﻿/* **********************************************************************************************************************************
+ *  Author      : Navaneeth Puthiyandi                                                                                              *
+ *  Prgram Name : NavigateSimulator                                                                                                 *
+ *  Class Name  : ReadInputCsv                                                                                                      *
+ *  Version No  : 1.00.001                                                                                                          *
+ *                                                                                                                                  *
+ *  Description :   This class is capable of parsing a .csv file containing a predefined route (C:\route_example.csv) taken from the*
+ *                  commandline arguements passed. The data is stored in a list for further procesing                               *
+ *                                                                                                                                  *
+ *                                                                                                                                  *
+ *                                                                                                                                  *
+ *  Updates     :                                                                                                                   *
+ *                                                                                                                                  *
+ * **********************************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
 
 namespace NavigateSimulator
 {
+
+    /***************************************************************************************************************************
+     Method : ReadInputCsv()
+
+        Read all the rows in the file and store it in a STL.
+     ***************************************************************************************************************************/
     public class ReadInputCsv
     {
-
         private static List<List<string>> ReadCsvFile(string filePath)
         {
             List<string> Row;
@@ -30,6 +49,13 @@ namespace NavigateSimulator
             return myList;
         }
 
+        /***************************************************************************************************************************
+        Method : ReadFile(
+                    string filePath)
+
+        Iterate through the List and map the values to corresponding class variables in Routinfo.
+
+        ***************************************************************************************************************************/
         public static List<Route> ReadFile(string filePath)
         {
             List<Route> routes = new List<Route>();
@@ -48,14 +74,6 @@ namespace NavigateSimulator
                     route.Slope = double.Parse((eachLine[6] == string.Empty ? "0" : eachLine[6]), CultureInfo.InvariantCulture);
                     route.Distance = double.Parse((eachLine[7] == string.Empty ? "0" : eachLine[7]), CultureInfo.InvariantCulture);
                     route.DistanceInterval = double.Parse((eachLine[8] == string.Empty ? "0" : eachLine[8]), CultureInfo.InvariantCulture);
-                    //route.latitude = Convert.ToDouble(eachLine[1]);
-                    //route.longitude = Convert.ToDouble(eachLine[2]);
-                    // route.SpeedLimit = Convert.ToDouble(eachLine[3] == string.Empty ? "0" : eachLine[3]);
-                    //route.Altitude = Convert.ToDouble(eachLine[4] == string.Empty ? "0" : eachLine[4]);
-                    //route.course = Convert.ToDouble(eachLine[5] == string.Empty ? "0" : eachLine[5]);
-                    //route.Slope = Convert.ToDouble(eachLine[6] == string.Empty ? "0" : eachLine[6]);
-                    //route.Distance = Convert.ToDouble(eachLine[7] == string.Empty ? "0" : eachLine[7]);
-                    //route.DistanceInterval = Convert.ToDouble(eachLine[8] == string.Empty ? "0" : eachLine[8]);
                     route.Name = (eachLine[9]);
                     route.Description = (eachLine[10]);
                     routes.Add(route);

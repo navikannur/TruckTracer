@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\navim\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\navim\\.nuget\\packages",
+      "C:\\Users\\naput\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\naput\\.nuget\\packages",
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ]
   }

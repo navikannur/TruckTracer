@@ -2,7 +2,7 @@
   "profiles": {
     "ConsoleApp4": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\navim\\OneDrive\\Desktop\\TEST_SCN\\route_example.csv 1000 Y"
+      "commandLineArgs": "C:\\Users\\naput\\Desktop\\TEST\\route_example.csv 1 Y"
     }
   }
 }

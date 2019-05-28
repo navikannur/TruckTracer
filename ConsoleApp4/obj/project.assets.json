@@ -728,23 +728,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\navim\\.nuget\\packages\\": {},
+    "C:\\Users\\naput\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\navim\\source\\repos\\ConsoleApp4\\ConsoleApp4\\NavigateSimulator.csproj",
+      "projectUniqueName": "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\NavigateSimulator.csproj",
       "projectName": "NavigateSimulator",
-      "projectPath": "C:\\Users\\navim\\source\\repos\\ConsoleApp4\\ConsoleApp4\\NavigateSimulator.csproj",
-      "packagesPath": "C:\\Users\\navim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\navim\\source\\repos\\ConsoleApp4\\ConsoleApp4\\obj\\",
+      "projectPath": "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\NavigateSimulator.csproj",
+      "packagesPath": "C:\\Users\\naput\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\navim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\naput\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

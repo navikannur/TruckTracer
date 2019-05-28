@@ -9,3 +9,14 @@ C:\Users\navim\source\repos\ConsoleApp4\ConsoleApp4\bin\Debug\netcoreapp2.1\Navi
 C:\Users\navim\source\repos\ConsoleApp4\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.dll
 C:\Users\navim\source\repos\ConsoleApp4\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.pdb
 C:\Users\navim\source\repos\ConsoleApp4\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csprojAssemblyReference.cache
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csprojAssemblyReference.cache
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csproj.CoreCompileInputs.cache
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.AssemblyInfoInputs.cache
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.AssemblyInfo.cs
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.dll
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.pdb
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.deps.json
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.runtimeconfig.json
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.runtimeconfig.dev.json
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.dll
+C:\Users\naput\Desktop\TruckTrace\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.pdb
