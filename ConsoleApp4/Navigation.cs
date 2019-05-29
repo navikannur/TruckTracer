@@ -137,11 +137,17 @@ namespace NavigateSimulator
                         // Debug Mode will print the values on standard output.
                         if (Debug)
                         {
+
+                            double dlatitude = Math.Round(eachVector.latitude, 6);
+                            double dlongitude = Math.Round(eachVector.longitude, 6);
+                            double dcourse = Math.Round(eachVector.course, 2);
+                            double dspeed = Math.Round((current_Speed * 3.6), 2);
+
                             Console.WriteLine(
-                                "{ Latitude: " + eachVector.latitude +
-                                "\tLongitude: " + eachVector.longitude +
-                                "\tCourse: " + eachVector.course +
-                                "\tTruck Speed: " + (current_Speed * 3.6) +
+                                "{ Latitude: " + dlatitude +
+                                "\tLongitude: " + dlongitude +
+                                "\tCourse: " + dcourse +
+                                "\tTruck Speed: " + dspeed +
                                 "\tSpeedLimit: " + eachVector.SpeedLimit +
                                 "}\n"
                                 );
@@ -206,11 +212,17 @@ namespace NavigateSimulator
                             // Debug Mode will print the values on standard output.
                             if (Debug)
                             {
+
+                                double dlatitude = Math.Round(eachVector.latitude, 6);
+                                double dlongitude = Math.Round(eachVector.longitude, 6);
+                                double dcourse = Math.Round(eachVector.course, 2);
+                                double dspeed = Math.Round((current_Speed*3.6), 2);
+
                                 Console.WriteLine(
-                                    "{ Latitude: " + eachVector.latitude +
-                                    "\tLongitude: " + eachVector.longitude +
-                                    "\tCourse: " + eachVector.course +
-                                    "\tTruck Speed: " + (current_Speed * 3.6) +
+                                    "{ Latitude: " + dlatitude +
+                                    "\tLongitude: " + dlongitude +
+                                    "\tCourse: " + dcourse +
+                                    "\tTruck Speed: " + dspeed+
                                     "\tSpeedLimit: " + eachVector.SpeedLimit +
                                     "}\n"
                                     );
