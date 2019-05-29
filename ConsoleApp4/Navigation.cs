@@ -238,7 +238,7 @@ namespace NavigateSimulator
             vector.latitude = currentVector.latitude;
             vector.longitude = currentVector.longitude;
             vector.course = currentVector.course;
-           // vector.speed = current_Speed;
+            vector.speed = current_Speed;
             return vector;
         }
 
