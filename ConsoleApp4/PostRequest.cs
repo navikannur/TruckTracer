@@ -35,9 +35,9 @@ namespace NavigateSimulator
             public void Push(RouteInfo vector)
             {
                 string jsonPost = JsonCreater(vector);
-                test(jsonPost);
+                //test(jsonPost);
                 //test2(jsonPost);
-                //test3(jsonPost);
+                test3(jsonPost);
             }
 
             private void test(string jsonContent)

@@ -25,9 +25,9 @@ C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateS
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.runtimeconfig.dev.json
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.dll
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Debug\netcoreapp2.1\NavigateSimulator.pdb
-C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csprojAssemblyReference.cache
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csproj.CoreCompileInputs.cache
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.AssemblyInfoInputs.cache
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.AssemblyInfo.cs
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.dll
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.pdb
+C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csprojAssemblyReference.cache

@@ -34,10 +34,10 @@ namespace NavigateSimulator
             {
                 // args[0] does not exist because it is an empty array.
                 // assign it with an new array of string instead.
-                Console.WriteLine("Arguements are not passed please enter the arguements now\n<1.Csv file path>\t<2.Delay in seconds>\t<3.Debug Mode Y or N>");
+                Console.WriteLine("Enter mandatory parameter : Filename\n");
 
                 args = new string[] { Console.ReadLine(), };
-            }            
+            }
 
             //Delay in seconds
             if (args.Length > 1)
@@ -61,8 +61,8 @@ namespace NavigateSimulator
             else
             {
                 Console.WriteLine("File does not exist\n");
-              //  Console.ReadKey();
-            }            
+                //  Console.ReadKey();
+            }
         }
     }
 }
