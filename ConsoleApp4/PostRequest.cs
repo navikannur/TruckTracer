@@ -30,7 +30,9 @@ namespace NavigateSimulator
     {
         private string Url = "http://0.0.0.0:5000";
         private string status;
-
+        /* **********************************************************************************************************************************
+         Constructor called - Url been set here
+         **********************************************************************************************************************************/
         public PostRequest(string url)
         {
             Url = url;
@@ -48,6 +50,9 @@ namespace NavigateSimulator
             }
         }
 
+        /* **********************************************************************************************************************************
+         Data is collected from RouteInfo sent to the httppost_test(jsonPost) method for POST
+         **********************************************************************************************************************************/
         public void Push(RouteInfo vector)
         {
             //string jsonPost = JsonCreater(vector);
@@ -65,30 +70,13 @@ namespace NavigateSimulator
             httppost_test(jsonPost);
 
             // string responsender = httppost_test(jsonPost);
-
             //test(jsonPost);
             //test2(jsonPost);
             //test3(jsonPost);
-        }
-        private void test(string jsonContent)
-        {
-            HttpClient client = new HttpClient();
-
-            /*     var json = new Dictionary<string, string>()
-            {  {"\"latitude\"", "59.16006" },
-               { "\"longitude\"", "17.64528"},
-                {"\"course\"","23.56" },
-                {"\"speed\"", "76.4" }
-                              }; */
-
-            //var content = new FormUrlEncodedContent(json);
-
-            var content = new StringContent(jsonContent);
-            var response = client.PostAsync(Url, content);
-            var responseString = response.Status; // ReadAsStringAsync();
 
         }
 
+        /*
         private string JsonCreater(double lat, double lon, double cou, double spe)
         {
             var routeContent = new RouteInfo();
@@ -104,7 +92,7 @@ namespace NavigateSimulator
         private string JsonCreater(RouteInfo routeContent)
         {
             return JsonConvert.SerializeObject(routeContent);
-        }
+        }*/
 
         public void httppost_test(string jsonPost)
         {
@@ -131,16 +119,34 @@ namespace NavigateSimulator
             }
             catch (WebException e)
             {
-                Console.WriteLine("***********************************************************\n");
-                Console.WriteLine("WebMapApp : Not responding, Please check if it is been run \n");
-                Console.WriteLine("***********************************************************\n");
+                Console.WriteLine("***********************************************************");
+                Console.WriteLine("WebMapApp : Not responding, Please check if it is been run");
+                Console.WriteLine("***********************************************************");
             }
 
         }
 
-        
         /*
-             private void test2(string jsonContent)
+        private void test(string jsonContent)
+        {
+            HttpClient client = new HttpClient();
+
+            var json = new Dictionary<string, string>()
+            {  {"\"latitude\"", "59.16006" },
+               { "\"longitude\"", "17.64528"},
+                {"\"course\"","23.56" },
+                {"\"speed\"", "76.4" }
+                              }; 
+
+        //var content = new FormUrlEncodedContent(json);
+
+        var content = new StringContent(jsonContent);
+            var response = client.PostAsync(Url, content);
+            var responseString = response.Status; // ReadAsStringAsync();
+
+        }
+                     
+        private void test2(string jsonContent)
              {
                  HttpClient client = new HttpClient();
 
@@ -233,10 +239,6 @@ namespace NavigateSimulator
 
             return responseFromServer;
             }*/
-
-
-
-
 
     }
 }
