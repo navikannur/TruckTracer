@@ -120,11 +120,22 @@ namespace NavigateSimulator
                 streamWriter.Close();
             }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            try
             {
-                var result = streamReader.ReadToEnd();
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
             }
+            catch (WebException e)
+            {
+                Console.WriteLine("***********************************************************\n");
+                Console.WriteLine("WebMapApp : Not responding, Please check if it is been run \n");
+                Console.WriteLine("***********************************************************\n");
+            }
+
         }
 
         

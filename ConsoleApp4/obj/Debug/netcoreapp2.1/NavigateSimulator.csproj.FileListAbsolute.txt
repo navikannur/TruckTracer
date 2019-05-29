@@ -30,4 +30,3 @@ C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateS
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.AssemblyInfo.cs
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.dll
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.pdb
-C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Debug\netcoreapp2.1\NavigateSimulator.csprojAssemblyReference.cache
