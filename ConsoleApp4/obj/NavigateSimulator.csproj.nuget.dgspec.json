@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\NavigateSimulator.csproj": {}
+    "C:\\Users\\naput\\Desktop\\TruckTracer\\ConsoleApp4\\NavigateSimulator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\NavigateSimulator.csproj": {
+    "C:\\Users\\naput\\Desktop\\TruckTracer\\ConsoleApp4\\NavigateSimulator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\NavigateSimulator.csproj",
+        "projectUniqueName": "C:\\Users\\naput\\Desktop\\TruckTracer\\ConsoleApp4\\NavigateSimulator.csproj",
         "projectName": "NavigateSimulator",
-        "projectPath": "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\NavigateSimulator.csproj",
+        "projectPath": "C:\\Users\\naput\\Desktop\\TruckTracer\\ConsoleApp4\\NavigateSimulator.csproj",
         "packagesPath": "C:\\Users\\naput\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\naput\\Desktop\\TruckTrace\\ConsoleApp4\\obj\\",
+        "outputPath": "C:\\Users\\naput\\Desktop\\TruckTracer\\ConsoleApp4\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
