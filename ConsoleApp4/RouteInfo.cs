@@ -34,4 +34,11 @@ namespace NavigateSimulator
         public string Name { get; set; }
         public string Description { get; set; }
     }
+/*
+    public class NextData : RouteInfo
+    {
+        public double prevSpeed { get; set; }
+        public double currentSpeed { get; set; }
+        public double timeInterval { get; set; }
+    } */
 }

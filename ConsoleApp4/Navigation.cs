@@ -58,7 +58,7 @@ namespace NavigateSimulator
         {
             double prevSpeed = 0; // in Km/H
             double prevDistance = 0; // In Km
-            var httpPoster = new HttpPost("http://localhost:5000");
+            var httpPoster = new PostRequest("http://localhost:5000");
             double previous_timeinterval = 0;
             int time_loops = 0;
             //double distance_interval = 0;
@@ -95,6 +95,8 @@ namespace NavigateSimulator
 
                         // new time interval is calculated
                         time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval);
+
+
                     }
                     else if (prevSpeed > (eachVector.SpeedLimit * 0.277777)) // Initiate Braking
                     {
@@ -120,11 +122,13 @@ namespace NavigateSimulator
 
                     /*-------------------------------------------------------------------------------------------------------------------------
                     Check if the time interval is too short or too large for the delay. 
-                    if there are intervals are larger than delay :   Same geo cordinates are delivered to http on regular delays.
+                    if there are intervals is same as delay      :  print once 
+                    if there are intervals are larger than delay :  Same geo cordinates are delivered to http on regular delays.
                     if the intervals are smaller than the delay  :  The intervals are accumulated and posted when it cross the delay period. 
                     -------------------------------------------------------------------------------------------------------------------------*/
                     time_loops = ((time_interval < (Delay)) ? 0 : ((int)(time_interval / (Delay))));
-                    for (int i=0; i<time_loops; i++)
+
+                    if(time_loops==1)
                     {
                         httpPoster.Push(CreateVector(eachVector, (current_Speed * 3.6)));
                         prevSpeed = current_Speed;
@@ -136,14 +140,85 @@ namespace NavigateSimulator
                             Console.WriteLine(
                                 "{ Latitude: " + eachVector.latitude +
                                 "\tLongitude: " + eachVector.longitude +
-                                "\tCourse: " + eachVector.course + 
-                                "\tTruck Speed: " + (current_Speed*3.6) + 
+                                "\tCourse: " + eachVector.course +
+                                "\tTruck Speed: " + (current_Speed * 3.6) +
                                 "\tSpeedLimit: " + eachVector.SpeedLimit +
                                 "}\n"
                                 );
                         }
-                        System.Threading.Thread.Sleep(Delay*1000);
-                    }    
+
+                        System.Threading.Thread.Sleep(Delay * 1000);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < time_loops; i++)
+                        {
+                            if (prevSpeed < (eachVector.SpeedLimit * 0.277777)) // Initiate Acceleration
+                            {
+                                // Calculate new speed if Acceleration is applied
+                                current_Speed = FinalSpeed(prevSpeed, Accelerating, eachVector.DistanceInterval);
+
+                                // If current speed is greater than permitted rate then limit the speed to the permitted limit
+                                if (current_Speed > (eachVector.SpeedLimit * 0.277777))
+                                    current_Speed = (eachVector.SpeedLimit * 0.277777);
+
+                                /*------------------------------------------------------------------------------------
+                                 Note Run_1.0 .
+                                 previous row was used : initialize the previous timeinterval
+                                 Else set the current one to previous before calculating new interval.
+                                 This can be used to accumulate the time intervals to match with delay.
+                                 ------------------------------------------------------------------------------------*/
+                                if (time_loops != 0)
+                                    previous_timeinterval = 0;
+                                else
+                                    previous_timeinterval = time_interval;
+
+                                // new time interval is calculated
+                                time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval);
+
+
+                            }
+                            else if (prevSpeed > (eachVector.SpeedLimit * 0.277777)) // Initiate Braking
+                            {
+                                // Calculate new speed if braking is applied
+                                current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
+
+                                // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
+                                if (current_Speed < (eachVector.SpeedLimit * 0.277777))
+                                    current_Speed = (eachVector.SpeedLimit * 0.277777);
+
+                                /*---------------------
+                                 Refer Note Run_1.0 . 
+                                 --------------------*/
+                                if (time_loops != 0)
+                                    previous_timeinterval = 0;
+                                else
+                                    previous_timeinterval = time_interval;
+
+                                // new time interval is calculated
+                                time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Braking, previous_timeinterval);
+                            }
+
+                            httpPoster.Push(CreateVector(eachVector, (current_Speed * 3.6)));
+                            prevSpeed = current_Speed;
+                            prevDistance = eachVector.Distance;
+
+                            // Debug Mode will print the values on standard output.
+                            if (Debug)
+                            {
+                                Console.WriteLine(
+                                    "{ Latitude: " + eachVector.latitude +
+                                    "\tLongitude: " + eachVector.longitude +
+                                    "\tCourse: " + eachVector.course +
+                                    "\tTruck Speed: " + (current_Speed * 3.6) +
+                                    "\tSpeedLimit: " + eachVector.SpeedLimit +
+                                    "}\n"
+                                    );
+                            }
+                            System.Threading.Thread.Sleep(Delay * 1000);
+                        }
+                    }
+                        
                     
                 }
             }
@@ -157,12 +232,13 @@ namespace NavigateSimulator
         *              
         * This method is used to createVector for the cordinates which need to be posted from the csv file
         ***********************************************************************************************************************************/
-        private RouteInfo CreateVector(Route currentVector, double finalSpeed)
+        private RouteInfo CreateVector(Route currentVector, double current_Speed)
         {
             RouteInfo vector = new RouteInfo();
             vector.latitude = currentVector.latitude;
             vector.longitude = currentVector.longitude;
             vector.course = currentVector.course;
+            vector.speed = current_Speed;
             return vector;
         }
 

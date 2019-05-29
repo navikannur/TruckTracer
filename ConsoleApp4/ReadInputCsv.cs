@@ -28,7 +28,7 @@ namespace NavigateSimulator
     public class ReadInputCsv
     {
         private static List<List<string>> ReadCsvFile(string filePath)
-        {
+        {            
             List<string> Row;
             List<List<string>> myList = new List<List<string>>();
             using (var reader = new StreamReader(filePath))

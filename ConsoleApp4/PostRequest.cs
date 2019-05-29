@@ -25,7 +25,6 @@ namespace NavigateSimulator
 {
     class PostRequest
     {
-        {
             private string Url = "http://0.0.0.0:5000";
 
             public PostRequest(string url)

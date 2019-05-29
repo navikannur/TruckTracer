@@ -15,6 +15,7 @@
  * **********************************************************************************************************************************/
  
 using System;
+using System.IO;
 
 namespace NavigateSimulator
 {
@@ -29,6 +30,15 @@ namespace NavigateSimulator
             bool debug = true;
             int Delay_in_Seconds = 1;
 
+            if (args.Length == 0)
+            {
+                // args[0] does not exist because it is an empty array.
+                // assign it with an new array of string instead.
+                Console.WriteLine("Arguements are not passed please enter the arguements now\n<1.Csv file path>\t<2.Delay in seconds>\t<3.Debug Mode Y or N>");
+
+                args = new string[] { Console.ReadLine(), };
+            }            
+
             //Delay in seconds
             if (args.Length > 1)
             {
@@ -42,10 +52,17 @@ namespace NavigateSimulator
                     debug = false;
             }
 
-            var navigate = new Navigation(args[0], Delay_in_Seconds, debug);
-            
-            //Execute the application
-            navigate.Run(); 
+            // validate if the file exist
+            if (File.Exists(args[0]))
+            {
+                var navigate = new Navigation(args[0], Delay_in_Seconds, debug);
+                navigate.Run();
+            }
+            else
+            {
+                Console.WriteLine("File does not exist\n");
+              //  Console.ReadKey();
+            }            
         }
     }
 }
