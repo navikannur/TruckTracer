@@ -35,7 +35,6 @@ namespace NavigateSimulator
                 // args[0] does not exist because it is an empty array.
                 // assign it with an new array of string instead.
                 Console.WriteLine("Enter mandatory parameter : Filename\n");
-
                 args = new string[] { Console.ReadLine(), };
             }
 

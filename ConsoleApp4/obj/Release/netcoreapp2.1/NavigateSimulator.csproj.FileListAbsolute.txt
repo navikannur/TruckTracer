@@ -3,7 +3,6 @@ C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Release\netcoreapp2.1\Navigat
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Release\netcoreapp2.1\NavigateSimulator.runtimeconfig.dev.json
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Release\netcoreapp2.1\NavigateSimulator.dll
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\bin\Release\netcoreapp2.1\NavigateSimulator.pdb
-C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Release\netcoreapp2.1\NavigateSimulator.csprojAssemblyReference.cache
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Release\netcoreapp2.1\NavigateSimulator.csproj.CoreCompileInputs.cache
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Release\netcoreapp2.1\NavigateSimulator.AssemblyInfoInputs.cache
 C:\Users\naput\Desktop\TruckTracer\ConsoleApp4\obj\Release\netcoreapp2.1\NavigateSimulator.AssemblyInfo.cs

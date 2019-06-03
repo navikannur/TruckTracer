@@ -87,26 +87,7 @@ namespace NavigateSimulator
                         final_dcourse = Math.Round(eachVector.course, 2);
                     }                    
                     firsttime = false;
-                }
-
-                /*
-
-                if (counter == Vectors.Count - 1)
-                {
-                    while (current_Speed > 0)
-                    { 
-                    current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
-                    prevSpeed = SendOutput(eachVector, current_Speed);
-                    }
-
-                    eachVector.latitude = final_dlatitude;
-                    eachVector.longitude = final_dlongitude;
-                    eachVector.course = final_dcourse;
-                    eachVector.speed = current_Speed;
-
-                    prevSpeed = SendOutput(eachVector, current_Speed);
-                } */
-
+                }            
 
                 if (eachVector.Type == 'T')
                 {                   
@@ -145,16 +126,16 @@ namespace NavigateSimulator
 
                         if (stop_lag_distance > eachVector.Destination_Distance)
                         {                            
-                            if (eachVector.Destination_Distance == 0)
-                            {
+                           /* if (eachVector.Destination_Distance == 0)
+                            
                                 // Recalculate the speed by final_velocity =   (decelarration * time) + initial velocity;   
                                 current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.Destination_Distance);
                                 while (current_Speed > 0)
                                 {
                                     prevSpeed = SendOutput(eachVector, current_Speed);
                                     current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
-                                }
-                            }
+                                }*/
+                            
                         }
                         else if (current_Speed < (eachVector.SpeedLimit * 0.277777)) // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
                         {
@@ -223,17 +204,23 @@ namespace NavigateSimulator
 
                                 // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
                                 if (stop_lag_distance > eachVector.Destination_Distance)
-                                {
-                                    if(eachVector.Destination_Distance == 0)
-                                    {
+                                {                                       
                                         //Re calculate the speed by final_velocity =   (decelarration * time) + initial velocity;
-                                        current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.Destination_Distance);
+                                        current_Speed = FinalSpeed(prevSpeed, Braking, 0 );
                                         while (current_Speed > 0)
                                         {
                                             prevSpeed = SendOutput(eachVector, current_Speed);
-                                            current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
+                                            current_Speed = FinalSpeed(prevSpeed, Braking, 0);
                                         }
-                                    }
+                                        if ((counter >= Vectors.Count-1) && (current_Speed==0))
+                                        {
+                                            eachVector.latitude = final_dlatitude;
+                                            eachVector.longitude = final_dlongitude;
+                                            eachVector.course = final_dcourse;
+                                            eachVector.speed = current_Speed;
+                                            prevSpeed = SendOutput(eachVector, current_Speed);
+                                            return;
+                                        }                                    
                                 }
                                 else if (current_Speed < (eachVector.SpeedLimit * 0.277777)) // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
                                 {
@@ -252,12 +239,10 @@ namespace NavigateSimulator
                                 // new time interval is calculated
                                 time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Braking, previous_timeinterval, eachVector.DistanceInterval);
                             }
-
                             prevSpeed = SendOutput(eachVector, current_Speed);
                         }
-                    }                   
-                    
-                }
+                    }                  
+                }                
             }
         }
 
@@ -304,7 +289,7 @@ namespace NavigateSimulator
             }
             else
             {
-                final = acceleration + initialSpeed;
+                final = (acceleration * Delay) + initialSpeed;
                 if (final > 0)
                     return final;
                 else
