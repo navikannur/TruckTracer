@@ -51,10 +51,15 @@ Equations used
             ‘u’ is current velocity before accelerating
             ‘a' is the acceleration
             ‘s’ is the distance interval.
-
 2. Calculations are done in meteres and seconds , but to match the speed limit and to output I have converted it to km/hr
 3. Speed limit in m/s^2 = SpeedLimit * 0.277777 
 4. The cordinates which are in the file but on short intervals than the delay time, is skipped. if the intervals is multiple times              higher than the delay then the cordinates are repeated on the regular delay.
+5. -(u^2/2a) is used to find the distance covered to put the vehicle to a stop with current velocity.
+6. if accelartion is applied then the time elapsed will be:
+                time_elapsed = (((current_Speed - initialSpeed) / acceleration) + previous_timeinterval);
+7. if acceleration is not applied then the time elapsed will be:
+                time_elapsed = ((DistanceInterval / current_Speed) + previous_timeinterval);
+8. reduced speed when distance interval is zero = (breaking * time) + initialSpeed. (hypothetical situation).
 
 Known Errors
 1.	Http post request is not working on the webmap. Hence the outputs are written to the standard output screen.
