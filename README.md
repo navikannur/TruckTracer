@@ -40,7 +40,9 @@ Dependencies
 Assumptions
 1.	Csv file format is fixed.
 2.	Csv file is correct and is no need to be validated or reformatted.
-3.	Records starting with ‘T’ is only considered for output.
+3.	Records starting with ‘W' is starting (first line) and ending position (second line)
+4.          All records starting with 'T’ is considered as cordinfates while running.
+5.          Vehicle doesnt stop anywhere in between.
 
 Equations used
 
