@@ -60,7 +60,6 @@ namespace NavigateSimulator
             else
             {
                 Console.WriteLine("File does not exist\n");
-                //  Console.ReadKey();
             }
         }
     }

@@ -81,7 +81,8 @@ namespace NavigateSimulator
                         prevSpeed = SendOutput(eachVector, current_Speed);
                     }
                     else
-                    {                        
+                    {           
+                        // Assuming the destination as the second line record with type W in the file.
                         final_dlatitude = Math.Round(eachVector.latitude, 6);
                         final_dlongitude = Math.Round(eachVector.longitude, 6);
                         final_dcourse = Math.Round(eachVector.course, 2);
@@ -116,8 +117,6 @@ namespace NavigateSimulator
 
                         // new time interval is calculated
                         time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval, eachVector.DistanceInterval);
-
-
                     }
                     else if ((prevSpeed > (eachVector.SpeedLimit * 0.277777)) || (stop_lag_distance >= eachVector.Destination_Distance)) // Initiate Braking
                     {
@@ -126,16 +125,7 @@ namespace NavigateSimulator
 
                         if (stop_lag_distance > eachVector.Destination_Distance)
                         {                            
-                           /* if (eachVector.Destination_Distance == 0)
-                            
-                                // Recalculate the speed by final_velocity =   (decelarration * time) + initial velocity;   
-                                current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.Destination_Distance);
-                                while (current_Speed > 0)
-                                {
-                                    prevSpeed = SendOutput(eachVector, current_Speed);
-                                    current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
-                                }*/
-                            
+                           /* breaking - keep going */                            
                         }
                         else if (current_Speed < (eachVector.SpeedLimit * 0.277777)) // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
                         {
@@ -145,7 +135,7 @@ namespace NavigateSimulator
                                                                      
                         /*---------------------
                              Refer Note Run_1.0 . 
-                        --------------------*/
+                        -----------------------*/
                         if (time_loops != 0)  
                             previous_timeinterval = 0;
                         else
@@ -212,6 +202,7 @@ namespace NavigateSimulator
                                             prevSpeed = SendOutput(eachVector, current_Speed);
                                             current_Speed = FinalSpeed(prevSpeed, Braking, 0);
                                         }
+                                        // if the last record has reached and the vehicle came to a stop, return the destination address.
                                         if ((counter >= Vectors.Count-1) && (current_Speed==0))
                                         {
                                             eachVector.latitude = final_dlatitude;
@@ -270,15 +261,20 @@ namespace NavigateSimulator
          *              double initialSpeed, 
          *              double acceleration, 
          *              double distance)
-         *              
-         * This method is used to calculate the velocity of the vehicle with help of the initial velocity , acceleration and distance.
-         * The equation used to calculate velocity is  =
-         * V^2 = U^2 + 2as
-         * We take the square root of the above equation.
+         *     
+         *     There are 2 cases
+         *     Case 1: 
+         *     This method is used to calculate the velocity of the vehicle with help of the initial velocity , acceleration and distance.
+         *     The equation used to calculate velocity is  = V^2 = U^2 + 2as
+         *     We take the square root of the above equation.
+         *     Case 2: 
+         *     Here if distance is zero the speed changes to zero. To avoid this scenario apply the equation without disctance vector
+         *     Speed = accelaration * time + initial speed formula
          ***********************************************************************************************************************************/
         private double FinalSpeed(double initialSpeed, double acceleration, double distance)
         {
             double final = 0;
+            // if the distance is not zero, we shall use the V^2 = U^2 + 2as formula.
             if (distance != 0)
             {
                 final = Math.Pow(initialSpeed, 2) + (2 * acceleration * distance);
@@ -287,7 +283,7 @@ namespace NavigateSimulator
                 else
                     return 0;
             }
-            else
+            else  //Else we shall use the Speed = accelaration * time + initial speed formula
             {
                 final = (acceleration * Delay) + initialSpeed;
                 if (final > 0)
@@ -307,8 +303,6 @@ namespace NavigateSimulator
          * if the time taken is less than the delay. We can accumulate it until the delay time is crossed. Otherwise if the csv contains multiple duplicate 
          * records we will be posting the results uneccessarily. Hence short interval data can be skipped. Also when there is a large distance between the rows
          * you can post the geo locations on regular intervals. 
-         * 
-         * (This function can be useful when speed need be updated in such cases (time interval less or greater than the delay) - but not done yet)
          ***********************************************************************************************************************************/
         private double TimeTaken_seconds(double current_Speed , double initialSpeed, double acceleration, double previous_timeinterval, double DistanceInterval)
         {
@@ -320,7 +314,6 @@ namespace NavigateSimulator
 
             return time_elapsed;
         }
-
         /* **********************************************************************************************************************************
          * Method  : private double Distance_to_stop(
          *              double current_Speed,
@@ -344,10 +337,11 @@ namespace NavigateSimulator
          *                  double braking)
          *              
          *      -(u^2/2a)
-         * Distance covered to put the vehicle to a stop with current velocity.
+         * Output is sent to the http and standard output screen in this method.
          ***********************************************************************************************************************************/
         private double SendOutput(Route currVector, double current_Speed)
         {
+            // HTTP POST request
             var httpPoster = new PostRequest("http://localhost:5000");
             httpPoster.Push(CreateVector(currVector, (current_Speed * 3.6)));            
 
