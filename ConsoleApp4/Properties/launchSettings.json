@@ -1,7 +1,8 @@
 {
   "profiles": {
     "ConsoleApp4": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\naput\\Desktop\\TESTING_TRUCK\\route_example.csv"
     }
   }
 }

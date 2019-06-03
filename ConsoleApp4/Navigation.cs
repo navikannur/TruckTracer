@@ -56,24 +56,64 @@ namespace NavigateSimulator
         **************************************************************************************************************************************/
         public void Run()
         {
-            double prevSpeed = 0; // in Km/H
-            double prevDistance = 0; // In Km
-            var httpPoster = new PostRequest("http://localhost:5000");
+            double prevSpeed = 0; // in Km/H            
             double previous_timeinterval = 0;
             int time_loops = 0;
-            //double distance_interval = 0;
+            double stop_lag_distance = 0;
             double time_interval = 0;
+            double current_Speed = 0;
+            bool firsttime = true;
+
+            double final_dlatitude = 0;
+            double final_dlongitude = 0;
+            double final_dcourse = 0;
+
+            int counter = 0;
 
             foreach (var eachVector in Vectors)
             {
                 // Assuming only routes with type T should be considered.
-                if (eachVector.Type == 'T')
+                counter++;
+                if (eachVector.Type == 'W')
                 {
+                    if (firsttime == true)
+                    {
+                        prevSpeed = SendOutput(eachVector, current_Speed);
+                    }
+                    else
+                    {                        
+                        final_dlatitude = Math.Round(eachVector.latitude, 6);
+                        final_dlongitude = Math.Round(eachVector.longitude, 6);
+                        final_dcourse = Math.Round(eachVector.course, 2);
+                    }                    
+                    firsttime = false;
+                }
 
-                    double current_Speed = prevSpeed;
+                /*
+
+                if (counter == Vectors.Count - 1)
+                {
+                    while (current_Speed > 0)
+                    { 
+                    current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
+                    prevSpeed = SendOutput(eachVector, current_Speed);
+                    }
+
+                    eachVector.latitude = final_dlatitude;
+                    eachVector.longitude = final_dlongitude;
+                    eachVector.course = final_dcourse;
+                    eachVector.speed = current_Speed;
+
+                    prevSpeed = SendOutput(eachVector, current_Speed);
+                } */
+
+
+                if (eachVector.Type == 'T')
+                {                   
                     //distance_interval = eachVector.Distance - prevDistance;
+                    stop_lag_distance = Distance_to_stop(current_Speed, Braking);
 
-                    if (prevSpeed < (eachVector.SpeedLimit * 0.277777)) // Initiate Acceleration
+                    if ((prevSpeed <= (eachVector.SpeedLimit * 0.277777)) && (stop_lag_distance < eachVector.Destination_Distance)) // Initiate Acceleration
                     {
                         // Calculate new speed if Acceleration is applied
                         current_Speed = FinalSpeed(prevSpeed, Accelerating, eachVector.DistanceInterval);
@@ -94,30 +134,45 @@ namespace NavigateSimulator
                             previous_timeinterval = time_interval;
 
                         // new time interval is calculated
-                        time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval);
+                        time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval, eachVector.DistanceInterval);
 
 
                     }
-                    else if (prevSpeed > (eachVector.SpeedLimit * 0.277777)) // Initiate Braking
+                    else if ((prevSpeed > (eachVector.SpeedLimit * 0.277777)) || (stop_lag_distance >= eachVector.Destination_Distance)) // Initiate Braking
                     {
                         // Calculate new speed if braking is applied
                         current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
 
-                        // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
-                        if (current_Speed < (eachVector.SpeedLimit * 0.277777))
+                        if (stop_lag_distance > eachVector.Destination_Distance)
+                        {                            
+                            if (eachVector.Destination_Distance == 0)
+                            {
+                                // Recalculate the speed by final_velocity =   (decelarration * time) + initial velocity;   
+                                current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.Destination_Distance);
+                                while (current_Speed > 0)
+                                {
+                                    prevSpeed = SendOutput(eachVector, current_Speed);
+                                    current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
+                                }
+                            }
+                        }
+                        else if (current_Speed < (eachVector.SpeedLimit * 0.277777)) // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
+                        {
+                            //release breaking - zero acceleration
                             current_Speed = (eachVector.SpeedLimit * 0.277777);
-
+                        }
+                                                                     
                         /*---------------------
-                         Refer Note Run_1.0 . 
-                         --------------------*/
+                             Refer Note Run_1.0 . 
+                        --------------------*/
                         if (time_loops != 0)  
                             previous_timeinterval = 0;
                         else
                             previous_timeinterval = time_interval;
                         
                         // new time interval is calculated
-                        time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Braking, previous_timeinterval);
-                    }
+                        time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Braking, previous_timeinterval, eachVector.DistanceInterval);
+                    }                                                                          
 
 
                     /*-------------------------------------------------------------------------------------------------------------------------
@@ -130,36 +185,13 @@ namespace NavigateSimulator
 
                     if(time_loops==1)
                     {
-                        httpPoster.Push(CreateVector(eachVector, (current_Speed * 3.6)));
-                        prevSpeed = current_Speed;
-                        prevDistance = eachVector.Distance;
-
-                        // Debug Mode will print the values on standard output.
-                        if (Debug)
-                        {
-
-                            double dlatitude = Math.Round(eachVector.latitude, 6);
-                            double dlongitude = Math.Round(eachVector.longitude, 6);
-                            double dcourse = Math.Round(eachVector.course, 2);
-                            double dspeed = Math.Round((current_Speed * 3.6), 2);
-
-                            Console.WriteLine(
-                                "{ Latitude: " + dlatitude +
-                                "\tLongitude: " + dlongitude +
-                                "\tCourse: " + dcourse +
-                                "\tTruck Speed: " + dspeed +
-                                "\tSpeedLimit: " + eachVector.SpeedLimit +
-                                "}\n"
-                                );
-                        }
-
-                        System.Threading.Thread.Sleep(Delay * 1000);
+                        prevSpeed = SendOutput(eachVector, current_Speed);
                     }
                     else
                     {
                         for (int i = 0; i < time_loops; i++)
                         {
-                            if (prevSpeed < (eachVector.SpeedLimit * 0.277777)) // Initiate Acceleration
+                            if ((prevSpeed < (eachVector.SpeedLimit * 0.277777)) && (stop_lag_distance < eachVector.Destination_Distance)) // Initiate Acceleration
                             {
                                 // Calculate new speed if Acceleration is applied
                                 current_Speed = FinalSpeed(prevSpeed, Accelerating, eachVector.DistanceInterval);
@@ -180,18 +212,34 @@ namespace NavigateSimulator
                                     previous_timeinterval = time_interval;
 
                                 // new time interval is calculated
-                                time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval);
+                                time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Accelerating, previous_timeinterval, eachVector.DistanceInterval);
 
 
                             }
-                            else if (prevSpeed > (eachVector.SpeedLimit * 0.277777)) // Initiate Braking
+                            else if ((prevSpeed > (eachVector.SpeedLimit * 0.277777)) || (stop_lag_distance >= eachVector.Destination_Distance)) // Initiate Braking
                             {
                                 // Calculate new speed if braking is applied
                                 current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
 
                                 // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
-                                if (current_Speed < (eachVector.SpeedLimit * 0.277777))
+                                if (stop_lag_distance > eachVector.Destination_Distance)
+                                {
+                                    if(eachVector.Destination_Distance == 0)
+                                    {
+                                        //Re calculate the speed by final_velocity =   (decelarration * time) + initial velocity;
+                                        current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.Destination_Distance);
+                                        while (current_Speed > 0)
+                                        {
+                                            prevSpeed = SendOutput(eachVector, current_Speed);
+                                            current_Speed = FinalSpeed(prevSpeed, Braking, eachVector.DistanceInterval);
+                                        }
+                                    }
+                                }
+                                else if (current_Speed < (eachVector.SpeedLimit * 0.277777)) // If current speed is lesser than permitted rate then adjust the speed to the permitted limit
+                                {
+                                    //release breaking - zero acceleration
                                     current_Speed = (eachVector.SpeedLimit * 0.277777);
+                                }
 
                                 /*---------------------
                                  Refer Note Run_1.0 . 
@@ -202,35 +250,12 @@ namespace NavigateSimulator
                                     previous_timeinterval = time_interval;
 
                                 // new time interval is calculated
-                                time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Braking, previous_timeinterval);
+                                time_interval = TimeTaken_seconds(current_Speed, prevSpeed, Braking, previous_timeinterval, eachVector.DistanceInterval);
                             }
 
-                            httpPoster.Push(CreateVector(eachVector, (current_Speed * 3.6)));
-                            prevSpeed = current_Speed;
-                            prevDistance = eachVector.Distance;
-
-                            // Debug Mode will print the values on standard output.
-                            if (Debug)
-                            {
-
-                                double dlatitude = Math.Round(eachVector.latitude, 6);
-                                double dlongitude = Math.Round(eachVector.longitude, 6);
-                                double dcourse = Math.Round(eachVector.course, 2);
-                                double dspeed = Math.Round((current_Speed*3.6), 2);
-
-                                Console.WriteLine(
-                                    "{ Latitude: " + dlatitude +
-                                    "\tLongitude: " + dlongitude +
-                                    "\tCourse: " + dcourse +
-                                    "\tTruck Speed: " + dspeed+
-                                    "\tSpeedLimit: " + eachVector.SpeedLimit +
-                                    "}\n"
-                                    );
-                            }
-                            System.Threading.Thread.Sleep(Delay * 1000);
+                            prevSpeed = SendOutput(eachVector, current_Speed);
                         }
-                    }
-                        
+                    }                   
                     
                 }
             }
@@ -268,11 +293,24 @@ namespace NavigateSimulator
          ***********************************************************************************************************************************/
         private double FinalSpeed(double initialSpeed, double acceleration, double distance)
         {
-            double final = Math.Pow(initialSpeed, 2) + (2 * acceleration * distance);
-            return Math.Sqrt(final);
+            double final = 0;
+            if (distance != 0)
+            {
+                final = Math.Pow(initialSpeed, 2) + (2 * acceleration * distance);
+                if (final > 0)
+                    return Math.Sqrt(final);
+                else
+                    return 0;
+            }
+            else
+            {
+                final = acceleration + initialSpeed;
+                if (final > 0)
+                    return final;
+                else
+                    return 0;
+            }
         }
-
-
         /* **********************************************************************************************************************************
          * Method  : private double TimeTaken_seconds(
          *              double current_Speed , 
@@ -287,10 +325,68 @@ namespace NavigateSimulator
          * 
          * (This function can be useful when speed need be updated in such cases (time interval less or greater than the delay) - but not done yet)
          ***********************************************************************************************************************************/
-        private double TimeTaken_seconds(double current_Speed , double initialSpeed, double acceleration, double previous_timeinterval)
+        private double TimeTaken_seconds(double current_Speed , double initialSpeed, double acceleration, double previous_timeinterval, double DistanceInterval)
         {
-            double time_elapsed = (((current_Speed - initialSpeed) / acceleration) + previous_timeinterval);
+            double time_elapsed = 0;
+            if (current_Speed != initialSpeed)
+                time_elapsed = (((current_Speed - initialSpeed) / acceleration) + previous_timeinterval);
+            else
+                time_elapsed = ((DistanceInterval / current_Speed) + previous_timeinterval);
+
             return time_elapsed;
+        }
+
+        /* **********************************************************************************************************************************
+         * Method  : private double Distance_to_stop(
+         *              double current_Speed,
+         *              double breaking)
+         *              
+         *              -(u^2/2a)
+         * 
+         * Distance covered to put the vehicle to a stop with current velocity.
+         ***********************************************************************************************************************************/
+        private double Distance_to_stop(double current_Speed, double braking)
+        {
+            double distance_required = (-1 * current_Speed* current_Speed) / (2 * braking);
+            return distance_required;
+        }
+
+
+        /* **********************************************************************************************************************************
+         * Method  : private double SendOutput(
+         *                  Route currVector, 
+         *                  double current_Speed, 
+         *                  double braking)
+         *              
+         *      -(u^2/2a)
+         * Distance covered to put the vehicle to a stop with current velocity.
+         ***********************************************************************************************************************************/
+        private double SendOutput(Route currVector, double current_Speed)
+        {
+            var httpPoster = new PostRequest("http://localhost:5000");
+            httpPoster.Push(CreateVector(currVector, (current_Speed * 3.6)));            
+
+            // Debug Mode will print the values on standard output.
+            if (Debug)
+            {
+
+                double dlatitude = Math.Round(currVector.latitude, 6);
+                double dlongitude = Math.Round(currVector.longitude, 6);
+                double dcourse = Math.Round(currVector.course, 2);
+                double dspeed = Math.Round((current_Speed * 3.6), 2);
+
+                Console.WriteLine(
+                                        "{ Latitude: " + dlatitude +
+                                        "\tLongitude: " + dlongitude +
+                                        "\tCourse: " + dcourse +
+                                        "\tTruck Speed: " + dspeed +
+                                        "\tSpeedLimit: " + currVector.SpeedLimit +
+                                        "}\n"
+                                        );
+            }
+            System.Threading.Thread.Sleep(Delay * 1000);
+
+            return current_Speed;
         }
     }
 }

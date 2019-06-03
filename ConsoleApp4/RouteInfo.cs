@@ -33,12 +33,14 @@ namespace NavigateSimulator
         public double DistanceInterval { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public double Destination_Distance { get; set; }
     }
-/*
-    public class NextData : RouteInfo
+
+    /*
+    public class StopInfo : RouteInfo
     {
-        public double prevSpeed { get; set; }
-        public double currentSpeed { get; set; }
-        public double timeInterval { get; set; }
-    } */
+        public double DistanceBalance { get; set; }
+        public double TimeBalance { get; set; }
+    } 
+    */
 }

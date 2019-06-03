@@ -36,12 +36,13 @@ namespace NavigateSimulator
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    var values = line.Split(',');
+                    var values = line.Split(',', StringSplitOptions.None);
                     Row = new List<string>();
                     foreach (var each in values)
                     {
-                        Row.Add(each);
+                        Row.Add(each);                        
                     }
+
                     myList.Add(Row);
                 }
             }
@@ -60,6 +61,7 @@ namespace NavigateSimulator
         {
             List<Route> routes = new List<Route>();
             var content = ReadCsvFile(filePath);
+
             foreach (var eachLine in content)
             {
                 if (eachLine[0] == "W" || eachLine[0] == "T")
@@ -76,11 +78,20 @@ namespace NavigateSimulator
                     route.DistanceInterval = double.Parse((eachLine[8] == string.Empty ? "0" : eachLine[8]), CultureInfo.InvariantCulture);
                     route.Name = (eachLine[9]);
                     route.Description = (eachLine[10]);
-                    routes.Add(route);
+                    routes.Add(route);               
                 }
             }
+
+            var item = routes[routes.Count - 1];
+
+            foreach (var Route in routes)
+            {
+                Route.Destination_Distance = (item.Distance - Route.Distance)*1000;
+            }
+
             return routes;
-        }        
+        }
+
     }
 
 }

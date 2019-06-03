@@ -95,21 +95,22 @@ namespace NavigateSimulator
         }*/
 
         public void httppost_test(string jsonPost)
-        {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-
-                streamWriter.Write(jsonPost);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
+        {                    
 
             try
             {
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+
+                    streamWriter.Write(jsonPost);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
@@ -117,7 +118,7 @@ namespace NavigateSimulator
                 }
 
             }
-            catch (WebException e)
+            catch (WebException)
             {
                 Console.WriteLine("***********************************************************");
                 Console.WriteLine("WebMapApp : Not responding, Please check if it is been run");
